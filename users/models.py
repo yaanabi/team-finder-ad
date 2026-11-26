@@ -1,5 +1,6 @@
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
+from django.core.validators import RegexValidator
 from django.db import models
 from django.utils import timezone
 
@@ -16,6 +17,7 @@ class UserManager(BaseUserManager):
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
         extra_fields.setdefault("is_active", True)
+        extra_fields.setdefault("phone", "+79222222222")
         return self.create_user(email, password, **extra_fields)
 
 
@@ -25,7 +27,12 @@ class User(AbstractBaseUser, PermissionsMixin):
     name = models.CharField("Имя", max_length=124)
     surname = models.CharField("Фамилия", max_length=124)
     avatar = models.ImageField("Аватар", upload_to="avatars/", blank=True)
-    phone = models.CharField("Телефон", max_length=12, unique=True)
+    phone = models.CharField("Телефон", max_length=12, unique=True, validators=[
+        RegexValidator(
+            regex=r"\A\+7[0-9]{10}\Z",
+            message="Введите номер телефона в формате +79991234567.",
+        ),
+    ])
     github_url = models.URLField("GitHub", blank=True)
     about = models.TextField("О себе", max_length=256, blank=True)
     is_active = models.BooleanField("Активен", default=True)

@@ -9,9 +9,9 @@ from .models import User
 class UserAdmin(DjangoUserAdmin):
     add_form = AdminUserCreationForm
     form = AdminUserChangeForm
-    list_display = ("email", "name", "surname", "is_active", "is_staff")
+    list_display = ("email", "phone", "name", "surname", "is_active", "is_staff")
     list_filter = ("is_active", "is_staff", "is_superuser")
-    search_fields = ("email", "name", "surname")
+    search_fields = ("email", "phone", "name", "surname")
     ordering = ("-date_joined", "-id")
     readonly_fields = ("last_login", "date_joined")
     fieldsets = (
@@ -29,7 +29,7 @@ class UserAdmin(DjangoUserAdmin):
     add_fieldsets = (
         (None, {
             "classes": ("wide",),
-            "fields": ("email", "name", "surname", "password1", "password2"),
+            "fields": ("email", "phone", "name", "surname", "password1", "password2"),
         }),
     )
     filter_horizontal = ("groups", "user_permissions")
