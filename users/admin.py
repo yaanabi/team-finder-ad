@@ -1,13 +1,13 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
 
-from .forms import AdminUserChangeForm, AdminUserCreationForm
+from .forms import AdminUserChangeForm, UserCreationForm
 from .models import User
 
 
 @admin.register(User)
 class UserAdmin(DjangoUserAdmin):
-    add_form = AdminUserCreationForm
+    add_form = UserCreationForm
     form = AdminUserChangeForm
     list_display = ("email", "phone", "name", "surname", "is_active", "is_staff")
     list_filter = ("is_active", "is_staff", "is_superuser")
